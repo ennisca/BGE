@@ -49,7 +49,10 @@ bool PhysicsGame1::Initialise()
 	{
 		position += gap;
 		box2 = physicsFactory->CreateBox(w, h, d, position, glm::quat());
+		
 		btHingeConstraint * hinge = new btHingeConstraint(*box1->rigidBody, *box2->rigidBody, btVector3(0,0,2.5f),btVector3(0,0,-2.5f), btVector3(0,1,0), btVector3(0,1,0), true);
+		hinge->setLimit(btScalar(-0.20f), btScalar(0.20f));
+		
 		dynamicsWorld->addConstraint(hinge);
 
 		box1 = box2;
