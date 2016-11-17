@@ -1,9 +1,17 @@
-﻿Build started 16/11/2016 22:50:06.
+﻿Build started 17/11/2016 23:29:14.
      1>Project "C:\Users\Kevin\Google Drive\CollegeWork\4thYear\GamesEngines\Assignment\BGE\BGE\BGE.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt PhysicsGame1.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt PhysicsCamera.cpp PhysicsGame1.cpp Salamander.cpp main.cpp
+         Salamander.cpp
+         Generating Code...
+         Compiling...
+         main.cpp
+     1>c:\users\kevin\google drive\collegework\4thyear\gamesengines\assignment\bge\dependencies\speech\v11.0\include\sphelper.h(1235): warning C4996: 'GetVersionExW': was declared deprecated
+                 c:\program files (x86)\windows kits\8.1\include\um\sysinfoapi.h(442) : see declaration of 'GetVersionExW'
          PhysicsGame1.cpp
-     1>c:\users\kevin\google drive\collegework\4thyear\gamesengines\assignment\bge\bge\physicsgame1.cpp(36): warning C4305: 'argument' : truncation from 'double' to 'const btScalar'
+     1>c:\users\kevin\google drive\collegework\4thyear\gamesengines\assignment\bge\bge\physicsgame1.cpp(37): warning C4305: 'argument' : truncation from 'double' to 'const btScalar'
+         PhysicsCamera.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Kevin\Google Drive\CollegeWork\4thYear\GamesEngines\Assignment\BGE\Debug\BGE.exe" /INCREMENTAL /NOLOGO Leap.lib Ws2_32.lib BulletCollision_vs2010_debug.lib BulletDynamics_vs2010_debug.lib LinearMath_vs2010_debug.lib fmodex_vc.lib winmm.lib libovr.lib glew32.lib SDL2.lib SDL2main.lib SDL2_ttf.lib opengl32.lib glu32.lib Kinect20.lib Kinect20.Face.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Kevin\Google Drive\CollegeWork\4thYear\GamesEngines\Assignment\BGE\Debug\BGE.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Kevin\Google Drive\CollegeWork\4thYear\GamesEngines\Assignment\BGE\Debug\BGE.lib" /MACHINE:X86 /PROFILE Debug\AttackingState.obj
          Debug\Buddha.obj
@@ -22,6 +30,7 @@
          Debug\Person2.obj
          Debug\PhysicsDrawer.obj
          Debug\Route.obj
+         Debug\Salamander.obj
          Debug\Scenario.obj
          Debug\SceneGraphGame.obj
          Debug\SkeletonMapper.obj
@@ -136,4 +145,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.97
+Time Elapsed 00:00:09.15

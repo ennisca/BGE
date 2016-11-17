@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "PhysicsController.h"
 #include "PhysicsFactory.h"
+#include "Salamander.h"
 #include <btBulletDynamicsCommon.h>
 
 namespace BGE
@@ -10,7 +11,7 @@ namespace BGE
 		public Game
 	{
 	private:
-		
+		shared_ptr<Salamander> salamander;
 	public:
 		PhysicsGame1(void);
 		~PhysicsGame1(void);
