@@ -10,7 +10,7 @@ namespace BGE
 	{
 	private:
 		shared_ptr<PhysicsController> CreateBodySection(glm::vec3 position, shared_ptr<PhysicsController> sectionToConnect, float w, float h, float d);
-		void CreateLeg(shared_ptr<PhysicsController> bodySection, float w, float h, float d);
+		void CreateLegs(shared_ptr<PhysicsController> bodySection, float w, float h, float d);
 		shared_ptr<PhysicsFactory> physicsFactory;
 
 		shared_ptr<PhysicsController> head, tail;

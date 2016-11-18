@@ -36,19 +36,19 @@ shared_ptr<PhysicsController> Salamander::CreateSalamander(glm::vec3 position, i
 		bodySections.push_back(sectionToConnect);
 	}
 
-	CreateLeg(
+	CreateLegs(
 		bodySections[0],
 		sectionWidth,
 		sectionHeight,
-		sectionDepth
+		sectionDepth / 2
 		);
 
-	CreateLeg(
+	/*CreateLegs(
 		bodySections[bodySections.size() - 1],
 		sectionWidth,
 		sectionHeight,
 		sectionDepth
-		);
+		);*/
 
 	return head;
 }
@@ -66,15 +66,16 @@ shared_ptr<PhysicsController> Salamander::CreateBodySection(glm::vec3 position, 
 	return section;
 }
 
-void Salamander::CreateLeg(shared_ptr<PhysicsController> bodySection, float w, float h, float d)
+void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, float h, float d)
 {
-	int rightLeftMupltiplier[] = { 1, -1 };
+	int rightLeftMupltiplier[] = { -1 };
 
 	for each (int side in rightLeftMupltiplier)
 	{
 		float angle = -90.0f * side;
-		glm::vec3 offset = glm::vec3(2, 0, 0) * float(side);
+		glm::vec3 offset = glm::vec3(d / 2, 0, 0) * float(side);
 
+		// Create upper leg section
 		glm::vec3 position = bodySection->transform->position + offset;
 		shared_ptr<PhysicsController> upperLeg = physicsFactory->CreateBox(w, h, d, position, glm::angleAxis(angle, glm::vec3(0, 1, 0)));
 		btHingeConstraint * hinge = new btHingeConstraint(
@@ -87,6 +88,11 @@ void Salamander::CreateLeg(shared_ptr<PhysicsController> bodySection, float w, f
 			true
 		);
 		physicsFactory->dynamicsWorld->addConstraint(hinge);
+
+		// Create lower leg section
+		offset = glm::vec3(d * 0.75f * side, -d, 0);
+		position += offset;
+		shared_ptr<PhysicsController> lowerLeg = physicsFactory->CreateBox(w, h, d, position, glm::angleAxis(angle, glm::vec3(1, 0, 0)));
 	}
 }
 
