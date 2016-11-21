@@ -34,7 +34,7 @@ bool PhysicsGame1::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();	
 
-	// dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
+	dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
 
 	salamander = make_shared<Salamander>(physicsFactory);
 	salamander->Initialise();
