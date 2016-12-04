@@ -22,8 +22,9 @@ Salamander::~Salamander(void)
 
 bool Salamander::Initialise()
 {
-	elapsed = 0.0f;
+	elapsed = -90.0f;
 	walking = stepLeft = stepRight = false;
+	walking = true;
 	return true;
 }
 
@@ -100,20 +101,31 @@ void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, 
 		physicsFactory->dynamicsWorld->addConstraint(hinge);
 
 		// Create lower leg section
-		/*offset = glm::vec3(d * 0.75f * side, -d, 0);
+		offset = glm::vec3(w * side, -w, 0);
 		position += offset;
-		shared_ptr<PhysicsController> lowerLeg = physicsFactory->CreateBox(w, h, d, position, glm::angleAxis(angle, glm::vec3(1, 0, 0)));
+		shared_ptr<PhysicsController> lowerLeg = physicsFactory->CreateBox(h, w, d, position, glm::quat());
 		hinge = new btHingeConstraint(
 			*upperLeg->rigidBody,
 			*lowerLeg->rigidBody,
-			btVector3(0, -h / 2, -d / 2),
-			btVector3(0, 0, d * 0.625),
-			btVector3(1, 0, 0),
-			btVector3(1, 0, 0)
+			btVector3(side * w * 0.625f, 0, 0),
+			btVector3(0, w * 0.625f, 0),
+			btVector3(0, 0, 1),
+			btVector3(0, 0, 1)
 			);
-		hinge->setLimit(glm::quarter_pi<float>(), glm::quarter_pi<float>());
-		physicsFactory->dynamicsWorld->addConstraint(hinge); */
+		hinge->setLimit(side * -glm::quarter_pi<float>() / 2, side * -glm::half_pi<float>());
+
+		if (side == -1)
+		{
+			hinge->setLimit(glm::quarter_pi<float>() / 2, glm::half_pi<float>());
+		}
+		else
+		{
+			hinge->setLimit(-glm::half_pi<float>(), -glm::quarter_pi<float>());
+		}
+
+		physicsFactory->dynamicsWorld->addConstraint(hinge);
 		legs.push_back(upperLeg);
+		lowerLegs.push_back(lowerLeg);
 	}
 }
 
@@ -121,17 +133,7 @@ void Salamander::Update(float timeDelta)
 {
 	const Uint8 * keyState = Game::Instance()->GetKeyState();
 
-	if (keyState[SDL_SCANCODE_LEFT])
-	{
-		stepLeft = true;
-		stepRight = false;
-	}
-
-	if (keyState[SDL_SCANCODE_RIGHT])
-	{
-		stepLeft = false;
-		stepRight = true;
-	}
+	speed = 4;
 
 	if (keyState[SDL_SCANCODE_K])
 	{
@@ -163,31 +165,47 @@ void Salamander::Update(float timeDelta)
 	if (stepLeft)
 	{
 		legs[0]->rigidBody->activate();
-		legs[0]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(-2.0f, 0, 0));
+		legs[0]->rigidBody->applyForce(btVector3(0, 0, speed), btVector3(-2.0f, 0, 0));
+		lowerLegs[0]->rigidBody->activate();
+		lowerLegs[0]->rigidBody->applyForce(btVector3(speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 
 		legs[1]->rigidBody->activate();
-		legs[1]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(2.0f, 0, 0));
+		legs[1]->rigidBody->applyForce(btVector3(0, 0, -speed), btVector3(2.0f, 0, 0));
+		lowerLegs[1]->rigidBody->activate();
+		lowerLegs[1]->rigidBody->applyForce(btVector3(speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 
 		legs[2]->rigidBody->activate();
-		legs[2]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(-2.0f, 0, 0));
+		legs[2]->rigidBody->applyForce(btVector3(0, 0, -speed), btVector3(-2.0f, 0, 0));
+		lowerLegs[2]->rigidBody->activate();
+		lowerLegs[2]->rigidBody->applyForce(btVector3(-speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 
 		legs[3]->rigidBody->activate();
-		legs[3]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(2.0f, 0, 0));
+		legs[3]->rigidBody->applyForce(btVector3(0, 0, speed), btVector3(2.0f, 0, 0));
+		lowerLegs[3]->rigidBody->activate();
+		lowerLegs[3]->rigidBody->applyForce(btVector3(-speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 	}
 
 	if (stepRight)
 	{
 		legs[0]->rigidBody->activate();
-		legs[0]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(-2.0f, 0, 0));
+		legs[0]->rigidBody->applyForce(btVector3(0, 0, -speed), btVector3(-2.0f, 0, 0));
+		lowerLegs[0]->rigidBody->activate();
+		lowerLegs[0]->rigidBody->applyForce(btVector3(-speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 
 		legs[1]->rigidBody->activate();
-		legs[1]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(2.0f, 0, 0));
+		legs[1]->rigidBody->applyForce(btVector3(0, 0, speed), btVector3(2.0f, 0, 0));
+		lowerLegs[1]->rigidBody->activate();
+		lowerLegs[1]->rigidBody->applyForce(btVector3(-speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 
 		legs[2]->rigidBody->activate();
-		legs[2]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(-2.0f, 0, 0));
+		legs[2]->rigidBody->applyForce(btVector3(0, 0, speed), btVector3(-2.0f, 0, 0));
+		lowerLegs[2]->rigidBody->activate();
+		lowerLegs[2]->rigidBody->applyForce(btVector3(speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 
 		legs[3]->rigidBody->activate();
-		legs[3]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(2.0f, 0, 0));
+		legs[3]->rigidBody->applyForce(btVector3(0, 0, -speed), btVector3(2.0f, 0, 0));
+		lowerLegs[3]->rigidBody->activate();
+		lowerLegs[3]->rigidBody->applyForce(btVector3(speed / 2, 0, 0), btVector3(0, -2.0f, 0));
 	}
 
 	elapsed += timeDelta;
