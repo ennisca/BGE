@@ -64,7 +64,7 @@ void PhysicsCamera::Update(float timeDelta)
 		float dist = 1000.0f;
 		if (pickedUp == NULL)
 		{		
-			btVector3 rayFrom = GLToBtVector(transform->position + (transform->look * 4.0f)); // Has to be some distance in front of the camera otherwise it will collide with the camera all the time
+			btVector3 rayFrom = GLToBtVector(transform->position + (transform->look * 10.0f)); // Has to be some distance in front of the camera otherwise it will collide with the camera all the time
 			btVector3 rayTo = GLToBtVector(transform->position + (transform->look * dist));
 
 			btCollisionWorld::ClosestRayResultCallback rayCallback(rayFrom, rayTo);
