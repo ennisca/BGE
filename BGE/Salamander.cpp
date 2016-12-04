@@ -1,4 +1,5 @@
 #include "Salamander.h"
+#include "Content.h"
 #include "Utils.h"
 
 using namespace BGE;
@@ -22,7 +23,7 @@ Salamander::~Salamander(void)
 bool Salamander::Initialise()
 {
 	elapsed = 0.0f;
-	walking = false;
+	walking = stepLeft = stepRight = false;
 	return true;
 }
 
@@ -44,14 +45,16 @@ shared_ptr<PhysicsController> Salamander::CreateSalamander(glm::vec3 position, i
 		bodySections[0],
 		sectionDepth / 2,
 		sectionWidth,
-		sectionHeight
+		sectionHeight,
+		1
 		);
 
 	 CreateLegs(
 		bodySections[bodySections.size() - 1],
 		sectionDepth / 2,
 		sectionWidth,
-		sectionHeight
+		sectionHeight,
+		-1
 		); 
 
 	return head;
@@ -71,7 +74,7 @@ shared_ptr<PhysicsController> Salamander::CreateBodySection(glm::vec3 position, 
 	return section;
 }
 
-void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, float h, float d)
+void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, float h, float d, int angleMultiplier)
 {
 	int rightLeftMupltiplier[] = { -1, 1 };
 
@@ -79,7 +82,7 @@ void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, 
 
 	for each (int side in rightLeftMupltiplier)
 	{
-		float angle = 30.0f;
+		float angle = 30.0f * angleMultiplier;
 		glm::vec3 offset = glm::vec3(w, 0, 0) * float(side);
 
 		// Create upper leg section
@@ -116,6 +119,76 @@ void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, 
 
 void Salamander::Update(float timeDelta)
 {
+	const Uint8 * keyState = Game::Instance()->GetKeyState();
+
+	if (keyState[SDL_SCANCODE_LEFT])
+	{
+		stepLeft = true;
+		stepRight = false;
+	}
+
+	if (keyState[SDL_SCANCODE_RIGHT])
+	{
+		stepLeft = false;
+		stepRight = true;
+	}
+
+	if (keyState[SDL_SCANCODE_K])
+	{
+		walking = true;
+	}
+
+	if (keyState[SDL_SCANCODE_L])
+	{
+		walking = false;
+	}
+
+	if (walking) 
+	{
+		if (glm::sin(elapsed * 0.7) > 0)
+		{
+			cout << "greater" << endl;
+			stepLeft = false;
+			stepRight = true;
+		}
+
+		if (glm::sin(elapsed * 0.7) < 0)
+		{
+			cout << "less" << endl;
+			stepLeft = true;
+			stepRight = false;
+		}
+	}
+
+	if (stepLeft)
+	{
+		legs[0]->rigidBody->activate();
+		legs[0]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(-2.0f, 0, 0));
+
+		legs[1]->rigidBody->activate();
+		legs[1]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(2.0f, 0, 0));
+
+		legs[2]->rigidBody->activate();
+		legs[2]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(-2.0f, 0, 0));
+
+		legs[3]->rigidBody->activate();
+		legs[3]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(2.0f, 0, 0));
+	}
+
+	if (stepRight)
+	{
+		legs[0]->rigidBody->activate();
+		legs[0]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(-2.0f, 0, 0));
+
+		legs[1]->rigidBody->activate();
+		legs[1]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(2.0f, 0, 0));
+
+		legs[2]->rigidBody->activate();
+		legs[2]->rigidBody->applyForce(btVector3(0, 0, 2), btVector3(-2.0f, 0, 0));
+
+		legs[3]->rigidBody->activate();
+		legs[3]->rigidBody->applyForce(btVector3(0, 0, -2), btVector3(2.0f, 0, 0));
+	}
 
 	elapsed += timeDelta;
 

@@ -10,14 +10,14 @@ namespace BGE
 	{
 	private:
 		shared_ptr<PhysicsController> CreateBodySection(glm::vec3 position, shared_ptr<PhysicsController> sectionToConnect, float w, float h, float d);
-		void CreateLegs(shared_ptr<PhysicsController> bodySection, float w, float h, float d);
+		void CreateLegs(shared_ptr<PhysicsController> bodySection, float w, float h, float d, int angleMultiplier);
 		shared_ptr<PhysicsFactory> physicsFactory;
 
 		shared_ptr<PhysicsController> head, tail;
 		vector<shared_ptr<PhysicsController>> bodySections, legs;
 
 		float elapsed;
-		bool control;
+		bool walking, stepLeft, stepRight;
 	public:
 		Salamander(shared_ptr<PhysicsFactory> _physicsFactory);
 		Salamander();
