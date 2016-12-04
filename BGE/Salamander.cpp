@@ -66,8 +66,8 @@ shared_ptr<PhysicsController> Salamander::CreateBodySection(glm::vec3 position, 
 	bodySections.push_back(section);
 
 	btHingeConstraint * hinge = new btHingeConstraint(*sectionToConnect->rigidBody, *section->rigidBody, btVector3(0, 0, 2.5f), btVector3(0, 0, -2.5f), btVector3(0, 1, 0), btVector3(0, 1, 0), true);
-	// hinge->setLimit(btScalar(-0.20f), btScalar(0.20f));
-	hinge->setLimit(btScalar(0), btScalar(0));
+	hinge->setLimit(btScalar(-0.20f), btScalar(0.20f));
+	// hinge->setLimit(btScalar(0), btScalar(0));
 
 	physicsFactory->dynamicsWorld->addConstraint(hinge);
 
@@ -92,7 +92,7 @@ void Salamander::CreateLegs(shared_ptr<PhysicsController> bodySection, float w, 
 			*bodySection->rigidBody,
 			*upperLeg->rigidBody,
 			btVector3(side * bodyWidth / 2, 0, 0),
-			btVector3(-side * w * 0.75f, 0, 0),
+			btVector3(-side * w * 0.625f, 0, 0),
 			btVector3(0, 1, 0),
 			btVector3(0, 1, 0),
 			true
@@ -145,14 +145,14 @@ void Salamander::Update(float timeDelta)
 
 	if (walking) 
 	{
-		if (glm::sin(elapsed * 0.7) > 0)
+		if (glm::sin(elapsed * 0.4) > 0)
 		{
 			cout << "greater" << endl;
 			stepLeft = false;
 			stepRight = true;
 		}
 
-		if (glm::sin(elapsed * 0.7) < 0)
+		if (glm::sin(elapsed * 0.4) < 0)
 		{
 			cout << "less" << endl;
 			stepLeft = true;
