@@ -14,7 +14,7 @@ namespace BGE
 		shared_ptr<PhysicsFactory> physicsFactory;
 
 		shared_ptr<PhysicsController> head, tail;
-		vector<shared_ptr<PhysicsController>> bodySections, legs;
+		vector<shared_ptr<PhysicsController>> bodySections, legs, lowerLegs;
 
 		float elapsed;
 		bool walking, stepLeft, stepRight;
