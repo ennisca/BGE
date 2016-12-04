@@ -14,7 +14,10 @@ namespace BGE
 		shared_ptr<PhysicsFactory> physicsFactory;
 
 		shared_ptr<PhysicsController> head, tail;
-		vector<shared_ptr<PhysicsController>> bodySections;
+		vector<shared_ptr<PhysicsController>> bodySections, legs;
+
+		float elapsed;
+		bool control;
 	public:
 		Salamander(shared_ptr<PhysicsFactory> _physicsFactory);
 		Salamander();

@@ -34,10 +34,11 @@ bool PhysicsGame1::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();	
 
-	dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
+	// dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
 
 	salamander = make_shared<Salamander>(physicsFactory);
 	salamander->Initialise();
+	Attach(salamander);
 
 	float w = 1;
 	float h = 1;
@@ -51,7 +52,8 @@ bool PhysicsGame1::Initialise()
 		return false;
 	}
 
-	camera->transform->position = glm::vec3(0,10, 20);
+	camera->transform->position = glm::vec3(5, 20, 0);
+	camera->transform->orientation = glm::angleAxis(-45.0f, glm::vec3(1, 0, 0));
 	
 	return true;
 }
